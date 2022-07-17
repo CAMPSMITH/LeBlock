@@ -6,7 +6,8 @@ Project intro ...
 
 ## Technologies
 
-* **...** - ...
+* **streamlit** - A Python Library used to create shareable web applications from python programs.
+
 
 ---
 
@@ -18,7 +19,9 @@ TBD ...
 
 ## Usage
 
-TBD ...
+```
+python3 pychain.py
+```
 
 ---
 
