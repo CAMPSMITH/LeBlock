@@ -25,7 +25,7 @@ pip install streamlit
 
 To run a **LeBlock** node:
 ```
-streamlit run pychain.py
+streamlit run src/pychain.py
 ```
 
 ---

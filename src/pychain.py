@@ -49,8 +49,11 @@ import hashlib
 # @TODO
 # Create a Record Data Class that consists of the `sender`, `receiver`, and
 # `amount` attributes
-# YOUR CODE HERE
-
+@dataclass
+class Record:
+    sender: str
+    receiver: str
+    amount: float
 
 ################################################################################
 # Step 2:
@@ -68,8 +71,7 @@ class Block:
 
     # @TODO
     # Rename the `data` attribute to `record`, and set the data type to `Record`
-    data: Any
-
+    record: Record
     creator_id: int
     prev_hash: str = "0"
     timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
@@ -143,67 +145,90 @@ class PyChain:
 def setup():
     print("Initializing Chain")
     return PyChain([Block("Genesis", 0)])
-
-
-st.markdown("# PyChain")
-st.markdown("## Store a Transaction Record in the PyChain")
-
 pychain = setup()
 
-################################################################################
-# Step 3:
-# Add Relevant User Inputs to the Streamlit Interface
+st.markdown("## PyChain")
 
-# Code additional input areas for the user interface of your Streamlit
-# application. Create these input areas to capture the sender, receiver, and
-# amount for each transaction that you’ll store in the `Block` record.
-# To do so, complete the following steps:
-# 1. Delete the `input_data` variable from the Streamlit interface.
-# 2. Add an input area where you can get a value for `sender` from the user.
-# 3. Add an input area where you can get a value for `receiver` from the user.
-# 4. Add an input area where you can get a value for `amount` from the user.
-# 5. As part of the Add Block button functionality, update `new_block` so that `Block` consists of an attribute named `record`, which is set equal to a `Record` that contains the `sender`, `receiver`, and `amount` values. The updated `Block`should also include the attributes for `creator_id` and `prev_hash`.
+# To improve streamlit knowledge, going beyond original assignment by enhancing the UI with additional streamlit components
+# Add a tab to manage the transaction
+# Use Layout and Container to organize UI elements
+# Add a tab to view blockchain
+txn_tab, blockchain_tab = st.tabs(["Transaction", "Blockchain"])
 
-# @TODO:
-# Delete the `input_data` variable from the Streamlit interface.
-input_data = st.text_input("Block Data")
 
-# @TODO:
-# Add an input area where you can get a value for `sender` from the user.
-# YOUR CODE HERE
+# The txn tab will include the txn form and button
+with txn_tab:
+    st.markdown("### Store a Transaction Record in the PyChain")
+    ################################################################################
+    # Step 3:
+    # Add Relevant User Inputs to the Streamlit Interface
 
-# @TODO:
-# Add an input area where you can get a value for `receiver` from the user.
-# YOUR CODE HERE
+    # Code additional input areas for the user interface of your Streamlit
+    # application. Create these input areas to capture the sender, receiver, and
+    # amount for each transaction that you’ll store in the `Block` record.
+    # To do so, complete the following steps:
+    # 1. Delete the `input_data` variable from the Streamlit interface.
+    # 2. Add an input area where you can get a value for `sender` from the user.
+    # 3. Add an input area where you can get a value for `receiver` from the user.
+    # 4. Add an input area where you can get a value for `amount` from the user.
+    # 5. As part of the Add Block button functionality, update `new_block` so that `Block` consists of an attribute named `record`, which is set equal to a `Record` that contains the `sender`, `receiver`, and `amount` values. The updated `Block`should also include the attributes for `creator_id` and `prev_hash`.
 
-# @TODO:
-# Add an input area where you can get a value for `amount` from the user.
-# YOUR CODE HERE
+    # Add a two column layout that will have a form on the left that will contain the transaction input fields
+    # and a column on the right that will contain the add button
+    txn_col1, txn_col2 = st.columns(2)
 
-if st.button("Add Block"):
-    prev_block = pychain.chain[-1]
-    prev_block_hash = prev_block.hash_block()
+    with txn_col1:
+        st.write("This is inside the container")
 
-    # @TODO
-    # Update `new_block` so that `Block` consists of an attribute named `record`
-    # which is set equal to a `Record` that contains the `sender`, `receiver`,
-    # and `amount` values
-    new_block = Block(
-        data=input_data,
-        creator_id=42,
-        prev_hash=prev_block_hash
-    )
+        # @TODO:
+        # Delete the `input_data` variable from the Streamlit interface.
+        # input_data = st.text_input("Block Data")
 
-    pychain.add_block(new_block)
-    st.balloons()
+        # @TODO:
+        # Add an input area where you can get a value for `sender` from the user.
+        sender = st.text_input("From")
+
+        # @TODO:
+        # Add an input area where you can get a value for `receiver` from the user.
+        receiver = st.text_input("To")
+
+        # @TODO:
+        # Add an input area where you can get a value for `amount` from the user.
+        amount = st.text_input("Amount")
+
+    with txn_col2:
+        if st.button("Add Block"):
+            prev_block = pychain.chain[-1]
+            prev_block_hash = prev_block.hash_block()
+
+            # @TODO
+            # Update `new_block` so that `Block` consists of an attribute named `record`
+            # which is set equal to a `Record` that contains the `sender`, `receiver`,
+            # and `amount` values
+            new_block = Block(
+                record=Record(sender=sender,receiver=receiver,amount=float(amount)),
+                creator_id=42,
+                prev_hash=prev_block_hash
+            )
+
+            pychain.add_block(new_block)
+            st.balloons()
 
 ################################################################################
 # Streamlit Code (continues)
 
-st.markdown("## The PyChain Ledger")
+# the blockchain tab will include the blockchain viewer
+with blockchain_tab:
 
-pychain_df = pd.DataFrame(pychain.chain).astype(str)
-st.write(pychain_df)
+    st.markdown("## The PyChain Ledger")
+
+
+    pychain_df = pd.DataFrame(pychain.chain).astype(str)
+    st.write(pychain_df)
+
+    if st.button("Validate Chain"):
+        # enhancing the validation message
+        st.write(f"The blockchain is {'valid' if pychain.is_valid() else 'invalid'}")
 
 difficulty = st.sidebar.slider("Block Difficulty", 1, 5, 2)
 pychain.difficulty = difficulty
@@ -215,8 +240,7 @@ selected_block = st.sidebar.selectbox(
 
 st.sidebar.write(selected_block)
 
-if st.button("Validate Chain"):
-    st.write(pychain.is_valid())
+
 
 ################################################################################
 # Step 4:
