@@ -1,27 +1,37 @@
-# Project Name
+# LeBlock
 
-Project intro ...
+A proof of concept blockchain that implements a distributed ledger for use by financial institutions.
 
 ---
 
 ## Technologies
 
-* **streamlit** - A Python Library used to create shareable web applications from python programs.
-
+* **streamlit** - A Python library used to create shareable web applications from python programs.
+* **dataclasses** - A Python library usd to create custom data objects.
+* **hashlib** - A Python library of hashing functions
 
 ---
 
-## Installation Guide
-
-TBD ...
+## Installation Instructions
+Start a virtual environment and use `pip install` to install the required libraries:
+```
+conda activate <environment name>
+pip install streamlit
+```
 
 ---
 
 ## Usage
 
+To run a **LeBlock** node:
 ```
-python3 pychain.py
+streamlit run pychain.py
 ```
+
+---
+
+## Application Demo
+
 
 ---
 
@@ -30,7 +40,6 @@ python3 pychain.py
 *  **Martin Smith** <span>&nbsp;&nbsp;</span> |
 <span>&nbsp;&nbsp;</span> *email:* msmith92663@gmail.com <span>&nbsp;&nbsp;</span>|
 <span>&nbsp;&nbsp;</span> [<img src="images/LI-In-Bug.png" alt="in" width="20"/>](https://www.linkedin.com/in/smithmartinp/)
-
 
 ---
 
