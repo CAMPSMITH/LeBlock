@@ -32,12 +32,16 @@ streamlit run src/pychain.py
 
 ## Application Demo
 
-
-
-
 https://user-images.githubusercontent.com/9788128/179411851-7f83c943-60fd-493f-9b6d-8cf408ba0798.mov
 
+### Adding a block
+![Adding a Block](images/block_entry.png)
 
+### Blockchain with several blocks
+![View Blockchain](images/blocks.png)
+
+### Valid Blockchain
+![Valid Blockchain](images/valid_blockchain.png)
 
 ---
 
