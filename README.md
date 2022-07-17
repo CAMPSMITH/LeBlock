@@ -32,7 +32,6 @@ streamlit run src/pychain.py
 
 ## Application Demo
 
-https://github.com/CAMPSMITH/LeBlock/blob/main/app_demo_1080.mov
 
 ---
 
